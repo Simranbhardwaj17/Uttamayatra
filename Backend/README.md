@@ -70,3 +70,61 @@ Registers a new user by taking `fullname`, `email`, and `password` as input.
 
 ---
 
+
+## **2. User Login**
+
+### **Endpoint:**
+
+`POST /users/login`
+
+### **Description:**
+
+Authenticates a registered user by verifying their email and password.
+
+### **Request Headers:**
+
+```json
+{
+  "Content-Type": "application/json"
+}
+```
+
+### **Request Body:**
+
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "securepassword123"
+}
+```
+
+### **Example Response:**
+
+#### **Success Response:**
+
+**Status Code: 200 OK**
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI...",
+  "user": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+}
+```
+
+#### **Error Responses:**
+
+**Status Code: 401 Unauthorized** (Invalid Credentials)
+
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+---
