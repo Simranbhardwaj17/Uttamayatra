@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();   //call express.Router()
 const { body } = require('express-validator');   // need only body from it
 const userController = require('../controllers/user.controller');   //logic of writing user create & reg is written in "controller"
+const authMiddleware = require('../middlewares/auth.middleware');   //use authUser middleware
 
 //Desc:- Register route
 //here exp-val is only checking, to perform action on anything wrong then do in "user.cont" file. so need valRes there
@@ -22,5 +23,11 @@ router.post('/login', [
 ], 
   userController.loginUser   
 );
+
+
+//Desc:- Profile route
+router.get('/profile',authMiddleware.authUser, userController.getUserProfile);
+router.get('/logout', authMiddleware.authUser, userController.logoutUser);
+
 
 module.exports = router;     //create & export

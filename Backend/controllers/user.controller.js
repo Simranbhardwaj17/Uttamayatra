@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 const userModel = require('../models/user.model');      //require it here
 const userService = require('../services/user.service');
-
+const blackListTokenModel = require('../models/blacklistToken.model');
 
 module.exports.registerUser = async (req, res, next) => { //logic to reg user(create)
   const errors = validationResult(req);  //if anything wrong in validation u will get here
@@ -52,5 +52,24 @@ module.exports.loginUser = async (req, res, next) => {
 
   const token = user.generateAuthToken();  //mthd from model
 
+  res.cookie('token', token);  //set token to cookie
+
   res.status(200).json({ token, user });  //send these in response(generatedToken, userLogin)
 } 
+
+
+module.exports.getUserProfile = async (req, res, next) => {
+  
+  res.status(201).json(req.user);    //req.user(user) set in middleware transfer here(in pfp) as a res 
+
+}
+
+
+module.exports.logoutUser = async (req, res, next) => {
+  res.clearCookie('token');
+  const token = req.cookies.token || req.headers.authorization.split(' ')[ 1 ]; 
+
+  await blackListTokenModel.create({ token });  //no need to pass createdAt(coz it take time by def )
+
+  res.status(200).json({ message: 'Logged out' });
+}
