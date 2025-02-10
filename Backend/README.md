@@ -216,3 +216,123 @@ module.exports.createUser = async ({ firstname, lastname, email, password }) => 
 - **Database:** MongoDB with Mongoose
 - **Authentication:** JSON Web Token (JWT)
 - **Validation:** express-validator
+
+
+
+## 4. **GET /users/profile**
+
+### **Description**
+Retrieves the profile details of the authenticated user.
+
+### **Endpoint**
+`GET /users/profile`
+
+### **Authentication Required**
+Yes (JWT Token in cookies or authorization header)
+
+### **Headers**
+| Key            | Value Type | Required | Description                         |
+|---------------|------------|----------|-------------------------------------|
+| Authorization | Bearer Token | Yes      | JWT token for authentication |
+
+### **Response**
+#### ✅ Success Response:
+**Status Code:** `200 OK`
+```json
+{
+  "_id": "64a1f2b4b12d",
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "johndoe@example.com"
+}
+```
+
+#### ❌ Error Responses:
+**Status Code:** `401 Unauthorized`
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+---
+
+## 5. **GET /users/logout**
+
+### **Description**
+Logs out the user by clearing authentication tokens and adding the token to a blacklist.
+
+### **Endpoint**
+`GET /users/logout`
+
+### **Authentication Required**
+Yes (JWT Token in cookies or authorization header)
+
+### **Headers**
+| Key            | Value Type | Required | Description                         |
+|---------------|------------|----------|-------------------------------------|
+| Authorization | Bearer Token | Yes      | JWT token for authentication |
+
+### **Response**
+#### ✅ Success Response:
+**Status Code:** `200 OK`
+```json
+{
+  "message": "Logged out"
+}
+```
+
+#### ❌ Error Responses:
+**Status Code:** `401 Unauthorized`
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+---
+
+## 6. **Authentication Middleware (authUser)**
+
+### **Description**
+Middleware that verifies the JWT token before allowing access to protected routes.
+
+### **How It Works:**
+- Extracts the token from either **cookies** or **authorization headers**.
+- Checks if the token exists in the blacklist.
+- Decodes the token and verifies its validity.
+- Attaches the authenticated user to the `req.user` object.
+
+### **Usage Example in Express**
+```js
+const authMiddleware = require('../middlewares/auth.middleware');
+
+router.get('/profile', authMiddleware.authUser, userController.getUserProfile);
+```
+
+### **Possible Errors**
+#### ❌ Missing Token:
+**Status Code:** `401 Unauthorized`
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### ❌ Invalid or Expired Token:
+**Status Code:** `401 Unauthorized`
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+---
+
+**Note:**
+- Ensure `cookie-parser` is enabled in the Express app to access cookies.
+- Blacklisted tokens are automatically removed after 24 hours to prevent storage overflow.
+- The `authUser` middleware should be applied to all routes requiring authentication.
+
