@@ -1,36 +1,60 @@
 const userModel = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const blackListTokenModel = require('../models/blacklistToken.model');
+const captainModel = require('../models/captain.model');
 
-
-//create middleware to authenticate user
+// Middleware to authenticate a user
 module.exports.authUser = async (req, res, next) => {
-  //get token from cookies or header. So check in both(1st in cookie then in header)
-  
-  const token = req.cookies.token || req.headers.authorization?.split(' ')[ 1 ];   //get token  //split authorization then get token    create middleware(cookie-parser) that interact with cookies in the server
-  
+  // Retrieve/Get token from cookies or headers (cookies checked first)
+  const token = req.cookies.token || req.headers.authorization?.split(' ')[1];    //create middleware(cookie-parser) that interact with cookies in the server
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  const isBlacklisted = await userModel.findOne({ token: token }); 
-
-  if(isBlacklisted) {
+  // Check if token is blacklisted (i.e., logged out)
+  const isBlacklisted = await blackListTokenModel.findOne({ token });
+  if (isBlacklisted) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
-    
-  //decrypt/decode the token, if get token
-  try{
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);   //decode using jwt.verify
+
+  try {
+    // Decode the token to get user ID
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await userModel.findById(decoded._id);
 
-    req.user = user  //set that user to req.user  //go as a res to getUserProfile
+    req.user = user; // Attach user data to request object
+    return next(); // Move to the next middleware or controller
+  } catch (err) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+};
 
-    return next();  //call next & ret it
+
+// Middleware to authenticate a captain
+module.exports.authCaptain = async (req, res, next) => {
+  // Retrieve token from cookies or headers
+  const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  // Check if token is blacklisted
+  const isBlacklisted = await blackListTokenModel.findOne({ token });
+  if (isBlacklisted) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  try {
+    // Decode token to get captain ID
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const captain = await captainModel.findById(decoded._id);
+
+    req.captain = captain; // Attach captain data to request object
+    return next(); // Move to the next middleware or controller(call next fn & ret it/frwd ctrl to pfp ctrler(to next one))
 
   } catch (err) {
-    return res.status(401).json({ message: 'Unauthorized'});  //again err msg
+    return res.status(401).json({ message: 'Unauthorized' });
   }
-}
-
- 
+};
