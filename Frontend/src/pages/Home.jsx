@@ -13,7 +13,12 @@ const Home = () => {
           <img className='w-16 ml-8 rounded' src="https://i.pinimg.com/736x/a1/55/fa/a155fa4e9ae945f9faf0bc2430b2a140.jpg" alt="Logo img" />
           <div className='bg-white pb-7 py-4 px-4'>
             <h2 className='text-3xl font-bold'>Get started with Uttamayatra</h2>
-            <Link to='/login' className='flex items-center justify-center w-full bg-black text-white py-3 rounded mt-5'>Continue</Link>
+            {/* Navigation to Login Page */}
+            <Link 
+              to='/login' 
+              className='flex items-center justify-center w-full bg-black text-white py-3 rounded mt-5'>
+              Continue
+            </Link>
           </div>
         </div>
       </div>
