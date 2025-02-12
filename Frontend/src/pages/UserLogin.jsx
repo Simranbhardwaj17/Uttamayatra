@@ -1,14 +1,14 @@
-import React from 'react'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const UserLogin = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   //to store user login data, so empty obj
-  const [userData, setUserData] = useState({})    
+  const [userData, setUserData] = useState({});    
 
-  const submitHandler = (e) => {
+  const submitHandler = (e) => {   
     e.preventDefault();  // Stop default form submission behavior(bydef action(reload))
     // setUserData({
     //   email: email,
@@ -19,10 +19,11 @@ const UserLogin = () => {
     {/* Fixed delayed state update in UserLogin by logging user data instantly */}
     const newUserData = { email, password };  // Create new user data object
     setUserData(newUserData);  // Update state with new user data
-    console.log(newUserData);  // Log immediately without delay
+    //console.log(newUserData);  // Log immediately without delay
+    
     setEmail('')    // Clear input fields after submission & get in console
     setPassword('')
-  }
+  };
 
   return (
     <div className='p-7 h-screen flex flex-col justify-between'>
@@ -34,7 +35,7 @@ const UserLogin = () => {
         <form onSubmit={(e) => {
           submitHandler(e)
         }}>
-          <h3 className='text-lg font-medium mb-2'>What's your email</h3>
+          <h3 className='text-lg font-medium mb-2'>Enter your registered email</h3>
           <input
             className='bg-[#eeeeee] mb-7 rounded px-4 py-2 border w-full text-lg placeholder:text-base'
             required 
@@ -69,22 +70,22 @@ const UserLogin = () => {
           className='text-center'>New here? 
           <Link 
             to='/signup' 
-            className='text-blue-600'>
+            className='text-blue-600 ml-1'>
             Create New Account
           </Link>
         </p>
       </div>
 
-      {/* Captain Login Link */}
+      {/* Captain Sign in Link */}
       <div>
         <Link 
-          to='/captain-signup' 
+          to='/captain-login' 
           className='bg-[#10b461] flex items-center justify-center text-white font-semibold mb-4 rounded px-4 py-2 w-full text-lg placeholder:text-base'>
           Sign in as Captain
         </Link>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default UserLogin;
