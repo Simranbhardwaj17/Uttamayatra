@@ -19,7 +19,7 @@ const CaptainLogin = () => {
     {/* Fixed delayed state update in UserLogin by logging captain data instantly */}
     const newCaptainData = { email, password };  // Create new captain data object
     setCaptainData(newCaptainData);  // Update state with new captain data
-    console.log(newCaptainData);  // Log immediately without delay (fixes delayed state update issue)
+    //console.log(newCaptainData);  // Log immediately without delay (fixes delayed state update issue)
     setEmail('')    // Clear input fields after submission & get in console
     setPassword('')
   }
@@ -34,7 +34,7 @@ const CaptainLogin = () => {
         <form onSubmit={(e) => {
           submitHandler(e)
         }}>
-          <h3 className='text-lg font-medium mb-2'>What's your email</h3>
+          <h3 className='text-lg font-medium mb-2'>Enter your registered email</h3>
           <input
             className='bg-[#eeeeee] mb-7 rounded px-4 py-2 border w-full text-lg placeholder:text-base'
             required 
@@ -68,7 +68,7 @@ const CaptainLogin = () => {
           className='text-center'>Ready to join our fleet? 
           <Link 
             to='/captain-signup' 
-            className='text-blue-600'>
+            className='text-blue-600 ml-1'>
             Register as a Captain
           </Link>
         </p>
