@@ -2,8 +2,8 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import UserLogin from './pages/UserLogin'
-import UserSignup from './pages/Usersignup'
-import CaptainLogin from './pages/Captainlogin'
+import UserSignup from './pages/UserSignup'
+import CaptainLogin from './pages/CaptainLogin'
 import CaptainSignup from './pages/CaptainSignup'
 
 const App = () => {
@@ -21,3 +21,5 @@ const App = () => {
 }
 
 export default App 
+
+//Setup React Router with auth routes for Home, User Login/Signup, and Captain Login/Signup
