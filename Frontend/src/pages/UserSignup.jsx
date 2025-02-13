@@ -1,42 +1,61 @@
-import React from 'react';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import React, { useState, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { UserDataContext } from '../context/userContext'  // Import the context
 
 const UserSignup = () => {
   // State variables to store user input
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [userData, setUserData] = useState({}); //Stores user data (create empty obj)
+  const [ email, setEmail ] = useState('')
+  const [ password, setPassword ] = useState('')
+  const [ firstName, setFirstName ] = useState('') 
+  const [ lastName, setLastName ] = useState('')
+  const [ userData, setUserData ] = useState({}) //Stores user data (create empty obj)
+  const navigate = useNavigate()
+  const { user, setUser } = useContext(UserDataContext)  //pull out these 2 from UserContext(Used useContext(UserDataContext) to access user and setUser)
 
   // Handles form submission
-  const submitHandler = (e) => {
-    e.preventDefault();  // Prevents default form reload
-    // setUserData({
-    //   fullName: {
-    //     firstName: firstName,
-    //     lastName: lastName
-    //   },
-    //   email: email,
-    //   password: password
-    // })
-    // console.log(userData); 
-
+  const submitHandler = async (e) => {
+    e.preventDefault()  // Prevents default form reload
     // Creating a new user object
     const newUser = {
-      fullName: {
-        firstName,
-        lastName,
+      fullname: {
+        firstname: firstName,
+        lastname: lastName 
       },
-      email,
-      password,
-    };
+      email: email,
+      password: password
+    } 
     
-    setUserData(newUser);  // Updates state with new user data
-    //console.log("User Signed Up:", newUser); // Logs directly
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
 
+    // const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser);
+
+    if(response.status === 201) {
+      const data = response.data
+      setUser(data.user)
+      localStorage.setItem('token', data.token)
+      navigate('/home') 
+    }
+
+    // try {
+    //   const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser);
+    //   console.log("Response:", response.data);
+    //   if (response.status === 201) {
+    //     setUser(response.data.user);
+    //     navigate('/home');
+    //   }
+    // } catch (error) {
+    //   console.error("Signup Error:", error.response?.data || error.message);
+    //   alert(error.response?.data?.message || "Signup failed. Please try again.");
+    // }
+    
+    // console.log(import.meta.env.VITE_BASE_URL);
+
+
+  
+    // setUser(newUser) // Update user in context (Updated setUser with new user data)
+    // setUserData(newUser)  // Updates state with new user data
+    //console.log("User Signed Up:", newUser) // Logs directly
     // Clear input fields after submission & get in console
     setFirstName('')
     setLastName('')
@@ -105,7 +124,7 @@ const UserSignup = () => {
             />
 
             <button className='bg-[#111] text-white font-semibold mb-2 rounded px-4 py-2 w-full text-lg placeholder:text-base'>
-              Login
+              Create Account
             </button>
 
           </form>
@@ -127,7 +146,7 @@ const UserSignup = () => {
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UserSignup;
+export default UserSignup

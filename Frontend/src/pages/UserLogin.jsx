@@ -1,29 +1,45 @@
-import React from 'react';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'    // Import Axios to handle HTTP requests for user authentication (login)
+import { UserDataContext } from '../context/userContext'  // Import the context
 
 const UserLogin = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   //to store user login data, so empty obj
-  const [userData, setUserData] = useState({});    
+  const [userData, setUserData] = useState({})   
+  const navigate = useNavigate()
+  const { user, setUser } = useContext(UserDataContext)  //pull out these 2 from UserContext(Used useContext(UserDataContext) to access user and setUser) 
 
-  const submitHandler = (e) => {   
-    e.preventDefault();  // Stop default form submission behavior(bydef action(reload))
+  
+  const submitHandler = async (e) => {   
+    e.preventDefault()  // Stop default form submission behavior(bydef action(reload))
     // setUserData({
     //   email: email,
     //   password: password
     // })
-    // console.log(userData);    //1 time gap(user not get login same time) (issue)
+    // console.log(userData)    //1 time gap(user not get login same time) (issue)
     
     {/* Fixed delayed state update in UserLogin by logging user data instantly */}
-    const newUserData = { email, password };  // Create new user data object
-    setUserData(newUserData);  // Update state with new user data
-    //console.log(newUserData);  // Log immediately without delay
+    const userData = {   // Create new user data object
+      email: email,
+      password: password
+    }  
     
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData)
+
+    if(response.status === 200) {
+      const data = response.data
+      setUser(data.user)
+      localStorage.setItem('token', data.token)
+      navigate('/home') 
+    }
+
+    // setUserData(userData)  // Update state with new user data
+    //console.log(newUserData)  // Log immediately without delay
     setEmail('')    // Clear input fields after submission & get in console
     setPassword('')
-  };
+  }
 
   return (
     <div className='p-7 h-screen flex flex-col justify-between'>
@@ -85,7 +101,7 @@ const UserLogin = () => {
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UserLogin;
+export default UserLogin

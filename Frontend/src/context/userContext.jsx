@@ -14,8 +14,8 @@ const UserContext = ({ children }) => {
   });
 
   return (
-    // Provide user data and update function to the entire app
-    <UserDataContext.Provider value={{ user, setUser }}>
+    // Provide user data and update function to the entire app (use obj)
+    <UserDataContext.Provider value={{ user, setUser }}> 
       {children}
     </UserDataContext.Provider>
   );
