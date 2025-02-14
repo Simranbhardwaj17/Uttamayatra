@@ -1,25 +1,31 @@
-import React from 'react'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { CaptainDataContext } from '../context/CaptainContext'
+import axios from 'axios'   // Import Axios to handle HTTP requests for captain authentication (login)
 
 const CaptainLogin = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [captainData, setCaptainData] = useState('');    
+  const [ email, setEmail ] = useState('')
+  const [ password, setPassword ] = useState('')
 
+  const { captain, setCaptain } = React.useContext(CaptainDataContext)
+  const navigate = useNavigate()
+  
   // Handle form submission
-  const submitHandler = (e) => {
-    e.preventDefault();    // Prevent default form submission behavior(bydef action(reload))
-    // setCaptainData({
-    //   email: email,  
-    //   password: password
-    // })
-    // console.log(captainData);    //1 time gap(captain not get login same time) (issue)
+  const submitHandler = async (e) => {
+    e.preventDefault()    // Prevent default form submission behavior(bydef action(reload))
+    const captain = {  // Create new captain data object
+      email: email,  
+      password
+    }  
     
-    {/* Fixed delayed state update in UserLogin by logging captain data instantly */}
-    const newCaptainData = { email, password };  // Create new captain data object
-    setCaptainData(newCaptainData);  // Update state with new captain data
-    //console.log(newCaptainData);  // Log immediately without delay (fixes delayed state update issue)
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, captain)
+    if (response.status === 200) {
+      const data = response.data
+      setCaptain(data.captain)
+      localStorage.setItem('token', data.token)
+      navigate('/captain-home')
+    }
+    
     setEmail('')    // Clear input fields after submission & get in console
     setPassword('')
   }
@@ -86,4 +92,4 @@ const CaptainLogin = () => {
   )
 }
 
-export default CaptainLogin;
+export default CaptainLogin
