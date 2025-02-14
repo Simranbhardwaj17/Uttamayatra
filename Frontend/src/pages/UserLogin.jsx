@@ -1,17 +1,16 @@
 import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'    // Import Axios to handle HTTP requests for user authentication (login)
-import { UserDataContext } from '../context/userContext'  // Import the context
+import { UserDataContext } from '../context/UserContext'  // Import the context
 
 const UserLogin = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  //to store user login data, so empty obj
-  const [userData, setUserData] = useState({})   
+   
   const navigate = useNavigate()
   const { user, setUser } = useContext(UserDataContext)  //pull out these 2 from UserContext(Used useContext(UserDataContext) to access user and setUser) 
 
-  
+   // Handle form submission
   const submitHandler = async (e) => {   
     e.preventDefault()  // Stop default form submission behavior(bydef action(reload))
     // setUserData({

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { UserDataContext } from '../context/userContext'  // Import the context
+import { UserDataContext } from '../context/UserContext'  // Import the context
 
 const UserSignup = () => {
   // State variables to store user input
@@ -18,7 +18,7 @@ const UserSignup = () => {
     e.preventDefault()  // Prevents default form reload
     // Creating a new user object
     const newUser = {
-      fullname: {
+      fullname: { 
         firstname: firstName,
         lastname: lastName 
       },

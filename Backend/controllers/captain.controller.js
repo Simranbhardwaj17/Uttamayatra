@@ -51,7 +51,7 @@ module.exports.loginCaptain = async (req, res, next) => {
   // Find captain by email and include password field
   const captain = await captainModel.findOne({ email }).select('+password');
   if (!captain) {
-    return res.satus(401).json({ message: 'Invalid email or password' });
+    return res.status(401).json({ message: 'Invalid email or password' });
   }
 
   // Compare the provided password with the hashed password
