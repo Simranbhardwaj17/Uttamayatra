@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserDataContext } from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 
 // This component acts as a wrapper to protect routes from unauthorized access
@@ -9,7 +10,7 @@ const UserProtectWrapper = ({ children }) => {
   // Instead of using/depend on user data (which resets(user get logged out) on page refresh/reload), rely on the token for authentication
   const token = localStorage.getItem('token')   // Get authentication token from localStorage
   const navigate = useNavigate()
-  const [ user, setUser ] = useContext(UserDataContext)
+  const { user, setUser } = useContext(UserDataContext)
   const [ isLoading, setIsLoading ] = useState(true)
 
   // useEffect runs on component mount and whenever 'token' changes
