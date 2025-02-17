@@ -1,6 +1,9 @@
 import React from 'react'
 
 const Home = () => {
+  const [pickup, setPickup] = useState('')
+  const [destination, setDestination] = useState('')
+
   const submitHandler = () => {
     e.preventDefault()
   }
@@ -17,8 +20,22 @@ const Home = () => {
             submitHandler(e)
           }}>
             <div className='line absolute h-16 w-1 top-[45%] left-10 bg-gray-700 rounded-full'></div>
-            <input className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-5' type ="text" placeholder='Add a pick-up location' /> 
-            <input className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3' type ="text" placeholder='Enter your destination' /> 
+            <input 
+            value = {pickup}
+            onChange={(e) => {
+              setPickup(e.target.value)
+            }}
+            className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-5' 
+            type ="text" 
+            placeholder='Add a pick-up location' /> 
+            <input 
+            value = {destination}
+            onChange={(e) => {
+              setDestination(e.target.value)
+            }}
+            className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3' 
+            type ="text" 
+            placeholder='Enter your destination' /> 
           </form>
         </div>
         <div className='bg-red-500'></div>
