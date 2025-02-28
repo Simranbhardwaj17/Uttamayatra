@@ -4,7 +4,7 @@ import CaptainDetails from '../components/CaptainDetails' // Component for displ
 import RidePopUp from '../components/RidePopUp' // Component for showing ride request popup
 import { useGSAP } from '@gsap/react' // Hook for integrating GSAP animations in React
 import gsap from 'gsap' // GSAP for animations
-import { ConfirmRidePopUp } from '../components/ConfirmRidePopUp' // Component for confirming ride requests
+import ConfirmRidePopUp  from '../components/ConfirmRidePopUp' // Component for confirming ride requests
 
 const CaptainHome = () => {
   // State to control visibility of popups
