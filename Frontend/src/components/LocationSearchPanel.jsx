@@ -1,7 +1,7 @@
 import React from 'react'
 
-export const LocationSearchPanel = (props) => {
-  console.log(props)
+const LocationSearchPanel = (props) => {
+  // console.log(props)
   
   //sample array for locations
   const locations = [
