@@ -8,6 +8,7 @@ const connectToDb = require('./db/db');
 const userRoutes = require('./routes/user.routes');  //require it(import) & config
 const captainRoutes = require('./routes/captain.routes');
 const mapsRoutes = require('./routes/maps.routes');
+const rideRoutes = require('./routes/ride.routes');
 
 connectToDb();
 
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 app.use('/users', userRoutes);    //config user route
 app.use('/captains', captainRoutes);
 app.use('/maps', mapsRoutes);
+app.use('/rides', rideRoutes);
 
 
 module.exports = app;  //export the var
