@@ -1,6 +1,6 @@
 const rideModel = require('../models/ride.model');
 const mapService = require('./maps.service');
-
+const crypto = require('crypto');
 
 //service fn to calculate fare on basis of distance and time with help of mapService.getDistanceTime fn
 async function getFare(pickup, destination) {
@@ -35,6 +35,15 @@ async function getFare(pickup, destination) {
   };
 
   return fare;
+}
+
+//crypto generate more secure code (otp) than bcrypt
+function getOtp(num) {
+  function generateOtp(num) {
+    const otp = crypto.randomInt(Math.pow(10, num - 1), Math.pow(10, num)).toString();
+    return otp;
+  }
+  return generateOtp(num);
 }
 
 
