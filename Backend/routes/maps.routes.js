@@ -13,6 +13,13 @@ router.get('/get-coordinates',
 );
 
 
+//Desc: Router to get-distance-time
+router.get('/get-distance-time',
+  query('origin').isString().isLength({ min: 3 }),
+  query('destination').isString().isLength({ min: 3 }),
+  authMiddleware.authUser,  //Middleware for only auth user
+  mapController.getDistanceTime
+);
 
 
 module.exports = router;
