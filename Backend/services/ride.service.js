@@ -37,6 +37,9 @@ async function getFare(pickup, destination) {
   return fare;
 }
 
+module.exports.getFare = getFare;
+
+
 //crypto generate more secure code (otp) than bcrypt
 function getOtp(num) {
   function generateOtp(num) {
