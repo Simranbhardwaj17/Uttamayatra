@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const VehiclePanel = (props) => {
+const VehiclePanel = (props) => {
   return (
     <div>
       <h5 className='p-1 text-center w-[93%] absolute top-0' onClick={()=> {
