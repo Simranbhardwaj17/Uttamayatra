@@ -9,6 +9,7 @@ const VehiclePanel = (props) => {
       <h3 className='text-2xl font-semibold mb-5'>Choose a Vehicle</h3>
       <div onClick={() => {
         props.setConfirmRidePanel(true)
+        props.selectVehicle('car')   //call it whenever click somewhere here
       }} className='flex border-1 active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between'>
         <img className='h-9' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpgslkhHmZ9MvM1dVBrM9RDg-Ov-zcg23Vjg&s" alt="Car logo" />
         <div className='ml-1 w-1/2'>
@@ -21,6 +22,7 @@ const VehiclePanel = (props) => {
 
       <div onClick={() => {
         props.setConfirmRidePanel(true)
+        props.selectVehicle('motorcycle')   //call it whenever click somewhere here
       }} className='flex border-1 active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between'>
         <img className='h-10' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxja_AqY5-rWAAJbRkku-5g97ipzp2OgMuaA&s" alt="Motorcycle logo" />
         <div className='-ml-7 w-1/2'>
@@ -33,6 +35,7 @@ const VehiclePanel = (props) => {
 
       <div onClick={() => {
         props.setConfirmRidePanel(true)
+        props.selectVehicle('auto')   //call it whenever click somewhere here
       }} className='flex border-1 active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between'>
         <img className='h-10' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyDyAJoUD2zBBgcNTZLUnFTWM_PJlC1ieUPQ&s" alt="Taxi logo" />
         <div className='ml-2 w-1/2'>
