@@ -48,6 +48,21 @@ function initializeSocket(server) {
       });
     });
 
+    socket.on('update-location-captain', async (data) => {
+      const { userId, location } = data;
+
+      //validation for location
+      if (!location || !location.ltd || !location.lng) {
+        return socket.emit('error', { message: 'Invalid location data' });
+      }
+      
+      await captainModel.findByIdAndUpdate(userId, { 
+        location: {
+          ltd: location.ltd,
+          lng: location.lng
+        }
+      });
+    });
 
     socket.on('disconnet', () => {
       console.log(`Client disconnected: ${socket.id}`);
