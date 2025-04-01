@@ -1,22 +1,58 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import CaptainDetails from '../components/CaptainDetails' // Component for displaying captain's details
 import RidePopUp from '../components/RidePopUp' // Component for showing ride request popup
 import { useGSAP } from '@gsap/react' // Hook for integrating GSAP animations in React
 import gsap from 'gsap' // GSAP for animations
 import ConfirmRidePopUp  from '../components/ConfirmRidePopUp' // Component for confirming ride requests
+import { SocketContext } from '../context/SocketContext'
+import { CaptainDataContext } from '../context/CaptainContext'
+
 
 const CaptainHome = () => {
   // State to control visibility of popups
-  const [ridePopupPanel, setRidePopupPanel] = useState(true)  // Initially, ride popup is open
-  const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false) // Initially, confirm ride popup is hidden
+  const [ ridePopupPanel, setRidePopupPanel ] = useState(true)  // Initially, ride popup is open
+  const [ confirmRidePopupPanel, setConfirmRidePopupPanel ] = useState(false) // Initially, confirm ride popup is hidden
   
   // Refs for popup panels
   const ridePopupPanelRef = useRef(null)
   const confirmRidePopupPanelRef = useRef(null)
+
+  const { socket } = useContext(SocketContext)
+  const { captain } = useContext(CaptainDataContext)
+
+  useEffect(() => {
+    socket.emit('join', {
+      userId: captain._id,
+      userType: 'captain'
+    })
+
+    //create an interval of 10sec this will send the location of the captain to the server via socket.io use event update-location-captain
+  const updateLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+
+        socket.emit('update-location-captain', {
+          userId: captain._id,
+          location: {
+            ltd: position.coords.latitude,
+            lng: position.coords.longitude
+          }
+        })
+      })
+    }
+  }
+
+  const locationInterval = setInterval(updateLocation, 10000)
+  updateLocation()
+
+  // return () => clearInterval(locationInterval)
+  }, [])
+
+  
   
   // Animation effect for RidePopUp panel
-  useGSAP(() => {
+  useGSAP(function () {
     if (ridePopupPanel) {
       gsap.to(ridePopupPanelRef.current, {
         transform: 'translateY(0)' // Bring panel into view
@@ -29,7 +65,7 @@ const CaptainHome = () => {
   }, [ridePopupPanel]) // Runs when `ridePopupPanel` state changes
 
   // Animation effect for ConfirmRidePopUp panel
-  useGSAP(() => {
+  useGSAP(function () {
     if (confirmRidePopupPanel) {
       gsap.to(confirmRidePopupPanelRef.current, {
         transform: 'translateY(0)' // Bring panel into view
