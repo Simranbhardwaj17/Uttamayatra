@@ -70,10 +70,13 @@ function initializeSocket(server) {
   });
 }
 
-function sendMessageToSocketId(socketId, message) {
+const sendMessageToSocketId = (socketId, messageObject) => {
+  
+  console.log(messageObject);
+
   //Send message to a specific socketId
   if (io) {
-    io.to(socketId).emit('message', message)
+    io.to(socketId).emit(messageObject.event, messageObject.data);
   } else {
     console.log('Socket.io not initialized.');
   }
