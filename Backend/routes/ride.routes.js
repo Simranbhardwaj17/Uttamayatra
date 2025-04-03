@@ -12,7 +12,6 @@ router.post('/create',
   body('destination').isString().isLength({ min: 3 }).withMessage('Invalid destination address'),
   body('vehicleType').isString().isIn([ 'auto', 'car', 'motorcycle' ]).withMessage('Invalid vehicle type'),
   rideController.createRide
-
 );
 
 router.get('/get-fare',
@@ -20,6 +19,12 @@ router.get('/get-fare',
   query('pickup').isString().isLength({ min: 3 }).withMessage('Invalid pickup address'),
   query('destination').isString().isLength({ min: 3 }).withMessage('Invalid destination address'),
   rideController.getFare
+)
+
+router.post('/confirm',
+  authMiddleware.authCaptain,    //authCaptain:- as captain will cnf
+  body('rideId').isMongoId().withMessage('Invalid ride id'),
+  rideController.confirmRide
 )
 
 module.exports = router;

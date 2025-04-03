@@ -11,12 +11,13 @@ import { CaptainDataContext } from '../context/CaptainContext'
 
 const CaptainHome = () => {
   // State to control visibility of popups
-  const [ ridePopupPanel, setRidePopupPanel ] = useState(true)  // Initially, ride popup is open
+  const [ ridePopupPanel, setRidePopupPanel ] = useState(false)  // Initially, ride popup is open
   const [ confirmRidePopupPanel, setConfirmRidePopupPanel ] = useState(false) // Initially, confirm ride popup is hidden
   
   // Refs for popup panels
   const ridePopupPanelRef = useRef(null)
   const confirmRidePopupPanelRef = useRef(null)
+  const [ ride, setRide ] = useState(null)
 
   const { socket } = useContext(SocketContext)
   const { captain } = useContext(CaptainDataContext)
@@ -51,8 +52,26 @@ const CaptainHome = () => {
 
   socket.on('new-ride', (data) => {
     console.log(data);  
+    setRide(data)
+    setRidePopupPanel(true)
   })
   
+  async function confirmRide() {
+
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
+
+      rideId: ride._id,
+      captainId: captain._id,
+
+    }, { 
+      headers: {   //for post req, care on header syntax
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+
+    setRidePopupPanel(false)
+    setConfirmRidePopupPanel(true)
+  }
   
   // Animation effect for RidePopUp panel
   useGSAP(function () {
@@ -106,7 +125,12 @@ const CaptainHome = () => {
 
       {/* Ride Request Popup */}
       <div ref={ridePopupPanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
-        <RidePopUp setRidePopupPanel={setRidePopupPanel} setConfirmRidePopupPanel={setConfirmRidePopupPanel} />
+        <RidePopUp 
+          ride={ride}
+          setRidePopupPanel={setRidePopupPanel} 
+          setConfirmRidePopupPanel={setConfirmRidePopupPanel} 
+          ConfirmRide={confirmRide}
+          />
       </div>
 
       {/* Confirm Ride Popup */}
