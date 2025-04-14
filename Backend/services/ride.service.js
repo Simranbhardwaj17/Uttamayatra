@@ -125,6 +125,11 @@ module.exports.startRide = async ({ rideId, otp, captain }) => {  //take all 3 o
     status: 'ongoing'
   })
 
+  sendMessageToSocketId(ride.user.socketId, {
+    event: 'ride-started',
+    data: ride
+  })
+
   return ride;
 }
 //send msg thrgh socketid to user that ride strted
