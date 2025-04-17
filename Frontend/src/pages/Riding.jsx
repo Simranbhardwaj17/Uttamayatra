@@ -1,7 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const Riding = () => {
+  const location = useLocation()
+  const { ride } = location.state || {} // Retrieve ride data
+
+
   return (
     <div className='h-screen'>
       <Link to='/home' className='fixed right-2 top-2 h-10 w-10 bg-white flex items-center justify-center rounded-full'>
@@ -15,8 +19,8 @@ const Riding = () => {
         <div className='flex items-center justify-between'>
           <img className='h-12' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpgslkhHmZ9MvM1dVBrM9RDg-Ov-zcg23Vjg&s" alt="Car logo" />
           <div className='text-right'>
-            <h2 className='text-lg font-medium'>Shailesh</h2>
-            <h4 className='text-xl font-semibold -mt-1 -mb-1'>GJ02 AB 1234</h4>
+            <h2 className='text-lg font-medium capitalize'>{ride?.captain.fullname.firstname}</h2>
+            <h4 className='text-xl font-semibold -mt-1 -mb-1'>{ride?.captain.vehicle.plate}</h4>
             <p className='text-sm text-gray-600'>Mercedes Benz</p>
           </div>
         </div>
@@ -28,14 +32,14 @@ const Riding = () => {
               <i class="ri-map-pin-user-fill"></i>
               <div>
                 <h3 className='text-lg font-medium'>5A, Sharang's cafe</h3>
-                <p className='text-sm -mt-1 text-gray-600'>Sangam, Ayodhya</p>
+                <p className='text-sm -mt-1 text-gray-600'>{ride?.destination}</p>
               </div>
             </div>
 
             <div className='flex items-center gap-5 p-3 '>
               <i className="ri-money-rupee-circle-fill"></i>
               <div>
-                <h3 className='text-lg font-medium'>₹180.93</h3>
+                <h3 className='text-lg font-medium'>₹{ride?.fare}</h3>
                 <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p>
               </div>
             </div>
