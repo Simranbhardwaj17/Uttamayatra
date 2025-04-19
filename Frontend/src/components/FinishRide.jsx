@@ -13,7 +13,7 @@ const FinishRide = (props) => {
       <div className='flex items-center justify-between p-4 border-2 border-yellow-400 rounded-lg mt-4'>
         <div className='flex items-center gap-3'>
           <img className='h-12 w-12 rounded-full object-cover' src='https://live.staticflickr.com/5252/5403292396_0804de9bcf_b.jpg' alt='image' />
-          <h4 className='text-lg font-medium'>Chiragi CS</h4>
+          <h4 className='text-lg font-medium'>{props.ride?.user.fullname.firstname}</h4>
         </div>
         <h5 className='text-lg font-semibold'>2.2 KM</h5>
       </div>
@@ -24,7 +24,7 @@ const FinishRide = (props) => {
             <i className="text-lg ri-map-pin-fill"></i>
             <div>
               <h3 className='text-lg font-medium'>563/11-A</h3>
-              <p className='text-sm -mt-1 text-gray-600'>Sangam, Ayodhya</p>
+              <p className='text-sm -mt-1 text-gray-600'>{props.ride?.pickup}</p>
             </div>
           </div>
 
@@ -32,14 +32,14 @@ const FinishRide = (props) => {
             <i class="ri-map-pin-user-fill"></i>
             <div>
               <h3 className='text-lg font-medium'>5A, Sharang's cafe</h3>
-              <p className='text-sm -mt-1 text-gray-600'>Sangam, Ayodhya</p>
+              <p className='text-sm -mt-1 text-gray-600'>{props.ride?.destination}</p>
             </div>
           </div>
 
           <div className='flex items-center gap-5 p-3 '>
             <i className="ri-money-rupee-circle-fill"></i>
             <div>
-              <h3 className='text-lg font-medium'>₹180.93</h3>
+              <h3 className='text-lg font-medium'>₹{props.ride?.fare}</h3>
               <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p>
             </div>
           </div>
