@@ -1,10 +1,9 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'   //Add useLocation
 
 const Riding = () => {
   const location = useLocation()
   const { ride } = location.state || {} // Retrieve ride data
-
 
   return (
     <div className='h-screen'>

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 const ConfirmRidePopUp = (props) => {
   const [otp, setOtp] = useState('')
+  const navigate = useNavigate()
 
   const submitHandler = async (e) => {
     e.preventDefault()

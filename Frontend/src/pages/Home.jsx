@@ -54,7 +54,7 @@ const Home = () => {
 
   socket.on('ride-started', ride => {
     setWaitingForDriver(false)
-    navigate('/riding', {state: { ride } })
+    navigate('/riding', {state: { ride } })  //send ride data while navigating to riding & show data in the riding compo
   })
 
 
