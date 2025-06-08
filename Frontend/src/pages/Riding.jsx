@@ -20,7 +20,7 @@ const Riding = () => {
         <i className="text-3xl font-medium ri-home-heart-fill"></i>
       </Link>
       <div className='h-1/2'>
-        <img className='h-full w-full object-cover' src="https://thegadgetflow.com/wp-content/uploads/2020/03/Google-Maps-vs-Google-Earth-featured.jpg" alt= "" />
+        <LiveTracking/>
       </div>
 
       <div className='h-1/2 p-4'>

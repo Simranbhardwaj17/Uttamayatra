@@ -12,6 +12,7 @@ import WaitingForDriver from '../components/WaitingForDriver'
 import { SocketContext } from '../context/SocketContext';
 import { UserDataContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';  //import hook
+import LiveTracking from '../components/LiveTracking';
 
 
 const Home = () => {
@@ -197,7 +198,7 @@ const Home = () => {
     <div className='h-screen relative overflow-hidden'>
       <img className='w-16 absolute left-5 top-5' src="https://i.pinimg.com/736x/a1/55/fa/a155fa4e9ae945f9faf0bc2430b2a140.jpg" alt= "" />
       <div className='h-screen w-screen'>
-        <img className='h-full w-full object-cover' src="https://thegadgetflow.com/wp-content/uploads/2020/03/Google-Maps-vs-Google-Earth-featured.jpg" alt= "" />
+        <LiveTracking />
       </div>
       <div className='flex flex-col justify-end h-screen absolute top-0 w-full'>
         <div className='h-[30%] p-6 bg-white relative'>
